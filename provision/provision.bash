@@ -3,6 +3,7 @@
 vagrant_ssh_key_comment="freddy-linux-vagrant"
 secondary_disk_dev="/dev/sdc"
 secondary_disk_mountpoint="/persistent"
+is_install_apps=true
 
 # Add SSH key for vagrant user
 grep "$vagrant_ssh_key_comment" /home/vagrant/.ssh/authorized_keys > /dev/null
@@ -48,11 +49,30 @@ fi
 # sudo -i -u vagrant /vagrant/provision/vagrant-provision.bash
 
 
-echo "=== Installing Linux GUI..."
+echo "=== Installing linux GUI..."
 apt-get -y install lubuntu-core --no-install-recommends
+apt-get -y install lxrandr
 
-# Copy cached debian packages for reuse in quicker subsequent vagrant recreations  
-cp /var/cache/apt/archives/*.deb /provision/apt/archives/*.deb
+# Copy cached debian packages for reuse in quicker subsequent vagrant recreations
+echo "Copying debian packages"
+cp /var/cache/apt/archives/*.deb /provision/apt/archives/
+
+# Drop .bashrc
+grep "# Vagrant provisioned" /home/vagrant/.bashrc > /dev/null
+if [ $? -ne 0  ]; then
+  echo "Provisioning vagrant user .bashrc"
+  cp /provision/vagrant-home/bashrc /home/vagrant/.bashrc
+  chown vagrant:vagrant /home/vagrant/.bashrc && chmod 644 /home/vagrant/.bashrc
+fi
+
+# Install apps
+### Not working
+# if [ "$is_install_apps" = true ]; then
+#   echo "=== Installing apps..."
+#   # sudo -S -u vagrant -i /bin/bash /provision/vagrant-provision.bash
+#   sudo -i -u vagrant /provision/vagrant-provision.bash
+#   # su -c "/provision/vagrant-provision.bash" -s /bin/bash vagrant
+# fi
 
 echo "======================================================================"
 echo 'If this was your first "vagrant up" then you may need to restart your VM to get your GUI'
