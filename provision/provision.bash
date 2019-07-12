@@ -44,11 +44,6 @@ if [ ! -d /home/vagrant/git ]; then
   chown -h vagrant:vagrant /home/vagrant/git
 fi
 
-# Install Brew
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-# sudo -i -u vagrant /vagrant/provision/vagrant-provision.bash
-
-
 echo "=== Installing linux GUI..."
 apt-get -y install lubuntu-core --no-install-recommends
 apt-get -y install lxrandr
@@ -65,15 +60,8 @@ if [ $? -ne 0  ]; then
   chown vagrant:vagrant /home/vagrant/.bashrc && chmod 644 /home/vagrant/.bashrc
 fi
 
-# Install apps
-### Not working
-# if [ "$is_install_apps" = true ]; then
-#   echo "=== Installing apps..."
-#   # sudo -S -u vagrant -i /bin/bash /provision/vagrant-provision.bash
-#   sudo -i -u vagrant /provision/vagrant-provision.bash
-#   # su -c "/provision/vagrant-provision.bash" -s /bin/bash vagrant
-# fi
-
-echo "======================================================================"
-echo 'If this was your first "vagrant up" then you may need to restart your VM to get your GUI'
-echo 'Do this by running: "vagrant reload"'
+echo "# ======================================================================"
+echo '# If this was your first "vagrant up" then you may need to restart your VM to get your GUI'
+echo '# Do this by running: "vagrant reload"'
+echo '#'
+echo '# You can provision applications by executing /vagrant/provision/vagrant-provision.bash on the virtual machine instance.'
