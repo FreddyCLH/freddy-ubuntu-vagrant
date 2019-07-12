@@ -59,7 +59,7 @@ chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/vscode
 if [ ! -d /home/vagrant/.vscode ]; then
   echo "Creating symlink /home/vagrant/.vscode"
   ln -s $secondary_disk_mountpoint/vagrant/vscode /home/vagrant/.vscode
-  chown -h vagrant:vagrant /home/vagrant/vscode
+  chown -h vagrant:vagrant /home/vagrant/.vscode
 fi
 
 echo "=== Installing linux GUI..."
