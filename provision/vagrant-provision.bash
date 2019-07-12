@@ -1,7 +1,20 @@
 #! /bin/bash
 
-# Vagrant user application level provisioning
+#####
+# Home Folder Personalisation
+#####
+personal_files=$(find /vagrant/provision/vagrant-home/personal/ -type f ! -name README.md)
+for f in ${personal_files}
+do
+  echo "Copying ${f} to ${HOME}"
+  cp ${f} ${HOME}/
+  chmod 644 ${HOME}/`basename ${f}`
+done
 
+
+##### 
+# Apt Installations
+#####
 # Install development tools
 sudo apt-get -y install build-essential libssl-dev libffi-dev 
 
@@ -11,6 +24,9 @@ sudo apt-get -y python python3 python3-pip python-dev
 # Install Applications
 sudo apt-get -y install curl file git meld tree
 
+#####
+# Brew packages
+#####
 # Install brew
 command -v brew > /dev/null
 if [ $? -ne 0  ]; then
@@ -22,10 +38,6 @@ if [ $? -ne 0  ]; then
   ln -s ../Homebrew/bin/brew $linuxbrew_home/.linuxbrew/bin
 fi
 
-#####
-# Brew packages
-#####
-
 # Terragrunt
 command -v terragrunt > /dev/null
 if [ $? -ne 0  ]; then
@@ -36,7 +48,6 @@ fi
 #####
 # Python packages
 #####
-
 # AWS
 command -v aws > /dev/null
 if [ $? -ne 0  ]; then
@@ -54,7 +65,6 @@ fi
 #####
 # Others
 #####
-
 # Visual Studio Code
 command -v code > /dev/null
 if [ $? -ne 0  ]; then

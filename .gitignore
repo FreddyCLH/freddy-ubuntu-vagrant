@@ -10,3 +10,7 @@ provision/apt/archives/*.deb
 !/provision/secrets/gpg/README.md
 /provision/secrets/ssh/*
 !/provision/secrets/ssh/README.md
+
+# vagrant-home / personal
+/provision/personal/*
+!/provision/personal/README.md
