@@ -31,6 +31,18 @@ do
   fi
 done
 
+# Home
+home_secrets=$(find /vagrant/provision/secrets/home/ -type f ! -name README.md)
+for f in ${home_secrets}
+do
+  target=${HOME}/`basename ${f}`
+  if ! cmp --silent ${f} ${target}; then
+    echo "Copying ${f} to ${target}"
+    cp ${f} ${HOME}/
+    chmod 600 ${target}
+  fi
+done
+
 # SSH
 ssh_home=${HOME}/.ssh
 ssh_secrets=$(find /vagrant/provision/secrets/ssh/ -type f ! -name README.md)

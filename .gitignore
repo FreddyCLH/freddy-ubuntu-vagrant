@@ -8,6 +8,8 @@ provision/apt/archives/*.deb
 !/provision/secrets/aws/README.md
 /provision/secrets/gpg/*
 !/provision/secrets/gpg/README.md
+/provision/secrets/home/*
+!/provision/secrets/home/README.md
 /provision/secrets/ssh/*
 !/provision/secrets/ssh/README.md
 
