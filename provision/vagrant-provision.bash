@@ -6,11 +6,30 @@
 personal_files=$(find /vagrant/provision/vagrant-home/personal/ -type f ! -name README.md)
 for f in ${personal_files}
 do
-  echo "Copying ${f} to ${HOME}"
-  cp ${f} ${HOME}/
-  chmod 644 ${HOME}/`basename ${f}`
+  target=${HOME}/`basename ${f}`
+  if ! cmp --silent ${f} ${target}; then
+    echo "Copying ${f} to ${target}"
+    cp ${f} ${HOME}/
+    chmod 644 ${target}
+  fi
 done
 
+#####
+# Secrets
+#####
+# AWS
+aws_home=${HOME}/.aws
+mkdir -p ${aws_home} && chmod 775 ${aws_home}
+aws_secrets=$(find /vagrant/provision/secrets/aws/ -type f ! -name README.md)
+for f in ${aws_secrets}
+do
+  target=${aws_home}/`basename ${f}`
+  if ! cmp --silent ${f} ${target}; then
+    echo "Copying ${f} to ${target}"
+    cp ${f} ${aws_home}/
+    chmod 600 ${target}
+  fi
+done
 
 ##### 
 # Apt Installations
