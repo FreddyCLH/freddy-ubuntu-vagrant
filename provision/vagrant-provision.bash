@@ -31,6 +31,19 @@ do
   fi
 done
 
+# SSH
+ssh_home=${HOME}/.ssh
+ssh_secrets=$(find /vagrant/provision/secrets/ssh/ -type f ! -name README.md)
+for f in ${ssh_secrets}
+do
+  target=${ssh_home}/`basename ${f}`
+  if ! cmp --silent ${f} ${target}; then
+    echo "Copying ${f} to ${target}"
+    cp ${f} ${ssh_home}/
+    chmod 600 ${target}
+  fi
+done
+
 ##### 
 # Apt Installations
 #####
