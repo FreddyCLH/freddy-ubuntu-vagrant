@@ -52,7 +52,7 @@ echo "=== Installing Linux GUI..."
 apt-get -y install lubuntu-core --no-install-recommends
 
 # Copy cached debian packages for reuse in quicker subsequent vagrant recreations  
-cp /var/cache/apt/archives/*.deb /provision/apt/archives/*.deb
+cp /var/cache/apt/archives/*.deb /provision/apt/archives/
 
 echo "======================================================================"
 echo 'If this was your first "vagrant up" then you may need to restart your VM to get your GUI'

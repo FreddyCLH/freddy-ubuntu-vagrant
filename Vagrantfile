@@ -4,9 +4,9 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-private_ip = "192.168.99.20"
+private_ip = "192.168.99.10"
 secondary_disk = "secondary_disk.vdi"
-secondary_disk_size = 20 * 1024
+secondary_disk_size = 50 * 1024
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :freddy_linux do |freddy_linux_config|
@@ -18,6 +18,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.cpus = 2
       v.gui = true
       v.customize ["setextradata", :id, "GUI/Seamless","1"]
+	  # Two screens
+	  v.customize ["modifyvm", :id, "--vram", "32"]
+	  v.customize ["modifyvm", :id, "--monitorcount", "2"]
+
 
       # Secondary Disk
       unless File.exist?(secondary_disk)
