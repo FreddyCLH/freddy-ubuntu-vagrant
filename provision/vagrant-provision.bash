@@ -31,6 +31,21 @@ do
   fi
 done
 
+# GPG
+gpg_secrets=$(find /vagrant/provision/secrets/gpg/ -type f ! -name README.md)
+for f in ${gpg_secrets}
+do
+  if grep -Fq 'BEGIN PGP PRIVATE KEY BLOCK' ${f}; then
+    gpg_import=$(gpg --allow-secret-key-import --import ${f} 2>&1)
+    if [[ ${gpg_import} == *"secret keys imported"* ]]; then
+      echo "Imported gpg private key: ${f}"
+      echo ${gpg_import}
+    elif [[ ! ${gpg_import} == *"secret keys unchanged"* ]]; then
+      echo "ERROR importing private gpg key ${f}"
+    fi
+  fi
+done
+
 # Home
 home_secrets=$(find /vagrant/provision/secrets/home/ -type f ! -name README.md)
 for f in ${home_secrets}

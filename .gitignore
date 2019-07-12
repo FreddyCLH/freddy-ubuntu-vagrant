@@ -1,5 +1,5 @@
 .vagrant/
-secondary_disk.vdi
+*.vdi
 *console.log
 provision/apt/archives/*.deb
 
