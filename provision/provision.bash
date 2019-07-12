@@ -44,6 +44,24 @@ if [ ! -d /home/vagrant/git ]; then
   chown -h vagrant:vagrant /home/vagrant/git
 fi
 
+# Symlink VSCode-WorkSpaces
+mkdir -p $secondary_disk_mountpoint/vagrant/VSCode-Workspaces
+chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/VSCode-Workspaces
+if [ ! -d /home/vagrant/VSCode-Workspaces ]; then
+  echo "Creating symlink /home/vagrant/VSCode-Workspaces"
+  ln -s $secondary_disk_mountpoint/vagrant/VSCode-Workspaces /home/vagrant/VSCode-Workspaces
+  chown -h vagrant:vagrant /home/vagrant/VSCode-Workspaces
+fi
+
+# Symlink .vscode
+mkdir -p $secondary_disk_mountpoint/vagrant/.vscode
+chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/vscode
+if [ ! -d /home/vagrant/.vscode ]; then
+  echo "Creating symlink /home/vagrant/.vscode"
+  ln -s $secondary_disk_mountpoint/vagrant/vscode /home/vagrant/.vscode
+  chown -h vagrant:vagrant /home/vagrant/vscode
+fi
+
 echo "=== Installing linux GUI..."
 apt-get -y install lubuntu-core --no-install-recommends
 apt-get -y install lxrandr
