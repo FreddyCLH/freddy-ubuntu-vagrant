@@ -19,7 +19,7 @@ done
 sudo apt-get -y install build-essential libssl-dev libffi-dev 
 
 # Install the pythons
-sudo apt-get -y python python3 python3-pip python-dev
+sudo apt-get -y install python python3 python3-pip python-dev
 
 # Install Applications
 sudo apt-get -y install curl file git meld tree
@@ -52,7 +52,7 @@ fi
 command -v aws > /dev/null
 if [ $? -ne 0  ]; then
   echo "Installing aws"
-  pip3 install aws
+  pip3 install awscli
 fi
 
 # Ansible
