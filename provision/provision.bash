@@ -31,6 +31,10 @@ if [ $? -ne 0  ]; then
   echo "$secondary_disk_dev  $secondary_disk_mountpoint  ext4  defaults  0 2" >> /etc/fstab
 fi
 
+# Secondary disk file system permissions
+chmod 755 ${secondary_disk_mountpoint}
+chown -R vagrant: ${secondary_disk_mountpoint}/vagrant
+
 # Apt updates
 cp /provision/apt/archives/*.deb /var/cache/apt/archives/
 apt-get -y update
@@ -54,7 +58,7 @@ if [ ! -d /home/vagrant/VSCode-Workspaces ]; then
 fi
 
 # Symlink .vscode
-mkdir -p $secondary_disk_mountpoint/vagrant/.vscode
+mkdir -p $secondary_disk_mountpoint/vagrant/vscode
 chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/vscode
 if [ ! -d /home/vagrant/.vscode ]; then
   echo "Creating symlink /home/vagrant/.vscode"
@@ -67,7 +71,7 @@ apt-get -y install lubuntu-core --no-install-recommends
 apt-get -y install lxrandr
 
 # Copy cached debian packages for reuse in quicker subsequent vagrant recreations
-echo "Copying debian packages"
+echo "Copying debian packages to /provision/apt/archives/ for faster vagrant recreations."
 cp /var/cache/apt/archives/*.deb /provision/apt/archives/
 
 # Drop .bashrc

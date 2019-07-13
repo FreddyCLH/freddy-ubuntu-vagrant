@@ -136,3 +136,9 @@ if [ $? -ne 0  ]; then
   sudo apt-get update
   sudo apt-get -y install code # or code-insiders
 fi
+
+#####
+# Cache Deb Packages
+#####
+echo "Copying debian packages to /provision/apt/archives/ for faster vagrant recreations."
+cp /var/cache/apt/archives/*.deb /provision/apt/archives/
