@@ -1,0 +1,12 @@
+[user]
+	email = frederick.ho@mercury.co.nz
+	name = Frederick Ho
+[push]
+	default = simple
+
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"

@@ -1,4 +1,18 @@
 .vagrant/
-secondary_disk.vdi
+*.vdi
 *console.log
 provision/apt/archives/*.deb
+
+# Secrets to ignore
+/provision/secrets/aws/*
+!/provision/secrets/aws/README.md
+/provision/secrets/gpg/*
+!/provision/secrets/gpg/README.md
+/provision/secrets/home/*
+!/provision/secrets/home/README.md
+/provision/secrets/ssh/*
+!/provision/secrets/ssh/README.md
+
+# vagrant-home / personal
+/provision/personal/*
+!/provision/personal/README.md

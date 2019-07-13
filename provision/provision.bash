@@ -31,6 +31,10 @@ if [ $? -ne 0  ]; then
   echo "$secondary_disk_dev  $secondary_disk_mountpoint  ext4  defaults  0 2" >> /etc/fstab
 fi
 
+# Secondary disk file system permissions
+chmod 755 ${secondary_disk_mountpoint}
+chown -R vagrant: ${secondary_disk_mountpoint}/vagrant
+
 # Apt updates
 cp /provision/apt/archives/*.deb /var/cache/apt/archives/
 apt-get -y update
@@ -44,17 +48,30 @@ if [ ! -d /home/vagrant/git ]; then
   chown -h vagrant:vagrant /home/vagrant/git
 fi
 
-# Install Brew
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-# sudo -i -u vagrant /vagrant/provision/vagrant-provision.bash
+# Symlink VSCode-WorkSpaces
+mkdir -p $secondary_disk_mountpoint/vagrant/VSCode-Workspaces
+chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/VSCode-Workspaces
+if [ ! -d /home/vagrant/VSCode-Workspaces ]; then
+  echo "Creating symlink /home/vagrant/VSCode-Workspaces"
+  ln -s $secondary_disk_mountpoint/vagrant/VSCode-Workspaces /home/vagrant/VSCode-Workspaces
+  chown -h vagrant:vagrant /home/vagrant/VSCode-Workspaces
+fi
 
+# Symlink .vscode
+mkdir -p $secondary_disk_mountpoint/vagrant/vscode
+chown vagrant:vagrant $secondary_disk_mountpoint/vagrant/vscode
+if [ ! -d /home/vagrant/.vscode ]; then
+  echo "Creating symlink /home/vagrant/.vscode"
+  ln -s $secondary_disk_mountpoint/vagrant/vscode /home/vagrant/.vscode
+  chown -h vagrant:vagrant /home/vagrant/.vscode
+fi
 
 echo "=== Installing linux GUI..."
 apt-get -y install lubuntu-core --no-install-recommends
 apt-get -y install lxrandr
 
 # Copy cached debian packages for reuse in quicker subsequent vagrant recreations
-echo "Copying debian packages"
+echo "Copying debian packages to /provision/apt/archives/ for faster vagrant recreations."
 cp /var/cache/apt/archives/*.deb /provision/apt/archives/
 
 # Drop .bashrc
@@ -65,15 +82,8 @@ if [ $? -ne 0  ]; then
   chown vagrant:vagrant /home/vagrant/.bashrc && chmod 644 /home/vagrant/.bashrc
 fi
 
-# Install apps
-### Not working
-# if [ "$is_install_apps" = true ]; then
-#   echo "=== Installing apps..."
-#   # sudo -S -u vagrant -i /bin/bash /provision/vagrant-provision.bash
-#   sudo -i -u vagrant /provision/vagrant-provision.bash
-#   # su -c "/provision/vagrant-provision.bash" -s /bin/bash vagrant
-# fi
-
-echo "======================================================================"
-echo 'If this was your first "vagrant up" then you may need to restart your VM to get your GUI'
-echo 'Do this by running: "vagrant reload"'
+echo "# ======================================================================"
+echo '# If this was your first "vagrant up" then you may need to restart your VM to get your GUI'
+echo '# Do this by running: "vagrant reload"'
+echo '#'
+echo '# You can provision applications by executing /vagrant/provision/vagrant-provision.bash on the virtual machine instance.'
