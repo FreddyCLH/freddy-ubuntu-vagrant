@@ -1,42 +1,36 @@
-# To Implment
+# Freddy's Ubuntu Vagrant
 
-brew
-terragrunt
-terraform
-git
-copy secrets
-.vim preferences
-ssh config for git
-Aliases
-  tree
-terminator
-VSCode
-VSCode preferences
+A Freddy personalised Ubuntu virtual machine, provisioned using Vagrant.
 
-# Done
-Secondary Disk
-symlink to git
-Apt cache packages
+## Getting Started
 
-# Notes
-The secondary disk can be copied prior to destruction.
+### Prerequistes
 
-# Linux Brew
+In addition to Vagrant, Virtual Box is required to be installed.
 
-- Install the Linuxbrew dependencies if you have sudo access:
-  Debian, Ubuntu, etc.
-    sudo apt-get install build-essential
-  Fedora, Red Hat, CentOS, etc.
-    sudo yum groupinstall 'Development Tools'
-  See http://linuxbrew.sh/#dependencies for more information.
-- Add Linuxbrew to your ~/.bash_profile by running
-    echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >>~/.bash_profile
-    echo 'export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"' >>~/.bash_profile
-    echo 'export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"' >>~/.bash_profile
-- Add Linuxbrew to your PATH
-    PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-- We recommend that you install GCC by running:
-    brew install gcc
-- Run `brew help` to get started
-- Further documentation:
-    http://docs.brew.sh
+### Deployment
+
+```
+vagrant up
+```
+
+## Retaining the persistent disk
+
+The secondary disk file *secondary_disk.vdi* is mounted to the */persistent* directory on the guest machine.
+This disk can be copied and renamed prior to vagrant destruction to retain it's data.
+
+Example:
+
+```
+cp secondary_disk.vdi bak.secondary_disk.vdi
+vagrant destroy
+```
+
+It can be restored in a fresh vagrant stand up by renaming the disk file back to *secondary_disk.vdi*.
+
+Example:
+
+```
+mv bak.secondary_disk.vdi secondary_disk.vdi
+vagrant up
+```
