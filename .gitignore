@@ -14,5 +14,5 @@ provision/apt/archives/*.deb
 !/provision/secrets/ssh/README.md
 
 # vagrant-home / personal
-/provision/personal/*
-!/provision/personal/README.md
+/provision/vagrant-home/personal/*
+!/provision/vagrant-home/personal/README.md
