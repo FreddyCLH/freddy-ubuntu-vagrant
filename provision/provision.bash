@@ -33,6 +33,11 @@ fi
 
 # Secondary disk file system permissions
 chmod 755 ${secondary_disk_mountpoint}
+
+# Persistent vagrant directory permissions
+if [[ ! -d ${secondary_disk_mountpoint}/vagrant ]]; then
+  mkdir $secondary_disk_mountpoint/vagrant
+fi
 chown -R vagrant: ${secondary_disk_mountpoint}/vagrant
 
 # Apt updates
